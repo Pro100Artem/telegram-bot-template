@@ -1,48 +1,43 @@
-import tools from 'darkness-tools'
-import dotenv from 'dotenv';
+import tools from 'satanic'
 
-(async () => {
-    
+async function main() {
     tools.updateClasses(/* Prototypes to update */)
-    
-    const env = (dotenv.config({
-        path: 'config.env'
-    })).parsed
 
-    const bot = tools.bot(env.TOKEN, () => {
-        await tools.doAtDate(env.SAVING_DATA_CRON, async () => {
+    const env = tools.readEnv()
+    const hideErrors = env.HIDE_ERRORS === 'true'
+    const bot = tools.bot(env.TOKEN, hideErrors, () => {
+        tools.doAtDate(env.SAVING_DATA_CRON, async () => {
             await saveAll()
         })
-    }, env.HIDE_ERRORS === 'true', env.LIBKEY)
-
+    })
     const admins = env.ADMINS.split(', ').map(id => +id)
 
     async function saveAll() {
-        //saving all data
+
     }
 
-    bot.on('text', (ctx) => {
-        (async () => {
-            const text = ctx.message.text
-            const userId = ctx.from.id
+    async function handleText(ctx) {
+        const text = ctx.message.text
+        const userId = ctx.from.id
+        const chatId = ctx.chat.id
 
-            if (admins.includes(userId)) {
+        if (admins.includes(userId)) {
 
-            } else {
-                
-            }
-        })()
-    })
+        } else {
 
-    bot.on('callback_query', (ctx) => {
-        (async () => {
-            const cb = ctx.callbackQuery
-            const data = cb.data
-            const userId = ctx.from.id
+        }
+    }
+    async function handleCbQuery(ctx) {
+        const cb = ctx.callbackQuery
+        const data = cb.data
+        const userId = ctx.from.id
 
 
-        })()
-    })
+    }
+
+    bot.on('text', handleText)
+    bot.on('callback_query', handleCbQuery)
+
     bot.start()
-    
-})()
+}
+main()
