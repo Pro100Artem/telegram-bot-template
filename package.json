@@ -20,5 +20,10 @@
         "url": "https://github.com/ExposedCat/telegram-bot-template/issues"
     },
     "homepage": "https://github.com/ExposedCat/telegram-bot-template#readme",
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "satanic": "^2.1.1",
+        "telegraf": "^3.38.0",
+        "mongoose": "^5.10.14"
+    }
 }
